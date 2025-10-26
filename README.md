@@ -8,20 +8,21 @@ It includes JSON/CSV metric export, JUnit tests, and Graphviz visualization.
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 ├── algo/ # Prim.java, Kruskal.java
-├── io/ # JsonReader.java, JsonWriter.java
-├── metrics/ # Metric.java, CsvWriter.java, OpCounter.java
+├── io/ # JsonReader.java
+├── metrics/ # Metrics.java, AlgorithmRecorder.java, OpCounter.java, StopWatch.java
 ├── model/ # Graph.java, Edge.java
-├── run/ # MstRunner.java, MergedVizRunner.java
-├── util/ # DotMergedOut.java
-├── data/ # Input and Output JSON/CSV files
-└── graphDots/ # Generated DOT and PNG visualization files
+├── mst/ # MstResult.java, GraphChecks.java, MstCoreResult.java, MstAlgorithm
+├── util/ # DonOut.java, JsonOut.java
+├── graphDots/ # Generated DOT and PNG visualization files
+├── data/ # CSV File which have all results
+├── images/ # All images
+└── json/ # All json files
 ```
 ---
-
 
 
 ## Testing
