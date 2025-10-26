@@ -33,7 +33,6 @@ public final class Kruskal implements MstAlgorithm {
     @Override
     public MstCoreResult run(Graph g) {
         List<Edge> sorted = new ArrayList<>(g.edges());
-        // грубый учёт стоимости сортировки
         ops.add(sorted.size());
         sorted.sort(Comparator.comparingDouble(Edge::w));
 
@@ -42,14 +41,11 @@ public final class Kruskal implements MstAlgorithm {
         double cost = 0.0;
 
         for (Edge e : sorted) {
-            // две find
             ops.add(2);
             int u = uf.find(e.u());
             int v = uf.find(e.v());
-            // попытка union
             ops.inc();
             if (u != v && uf.union(u, v)) {
-                // успешное добавление ребра
                 ops.inc();
                 tree.add(e);
                 cost += e.w();

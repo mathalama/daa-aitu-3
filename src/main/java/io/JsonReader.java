@@ -13,9 +13,6 @@ public final class JsonReader {
     private static final ObjectMapper M = new ObjectMapper();
     private JsonReader() {}
 
-    // Поддерживает:
-    // 1) { "graphs": [ { "id":"g1","vertices":5,"edges":[{"u":0,"v":1,"w":2.5}, ...] }, ... ] }
-    // 2) [ { "id":"g1","edges":[{"from":"A","to":"B","weight":1.2}, ...] }, ... ]
     public static List<Graph> readGraphs(Path path) {
         try {
             JsonNode root = M.readTree(Files.readAllBytes(path));
@@ -34,9 +31,8 @@ public final class JsonReader {
                     throw new IllegalArgumentException("graph " + id + ": edges[] required");
                 }
 
-                // накопим два вида рёбер
-                List<int[]> numericEdges = new ArrayList<>();           // [u,v] для u/v/w
-                List<String[]> labeledEdges = new ArrayList<>();        // [from,to] для from/to/weight
+                List<int[]> numericEdges = new ArrayList<>();
+                List<String[]> labeledEdges = new ArrayList<>();
                 List<Double> labeledWeights = new ArrayList<>();
 
                 for (JsonNode e : edgesNode) {
@@ -47,7 +43,7 @@ public final class JsonReader {
                         double w = e.path("w").isMissingNode() ? e.path("weight").asDouble()
                                 : e.get("w").asDouble();
                         numericEdges.add(new int[]{u, v});
-                        labeledWeights.add(w); // синхронный список весов
+                        labeledWeights.add(w);
                     } else {
                         JsonNode nf = e.get("from"), nt = e.get("to");
                         if (nf == null || nt == null) {
@@ -64,7 +60,6 @@ public final class JsonReader {
                 List<String> labels;
 
                 if (!labeledEdges.isEmpty() && numericEdges.isEmpty()) {
-                    // формат from/to/weight: строим индексацию меток
                     LinkedHashSet<String> labelSet = new LinkedHashSet<>();
                     for (String[] p : labeledEdges) { labelSet.add(p[0]); labelSet.add(p[1]); }
                     labels = new ArrayList<>(labelSet);
@@ -79,7 +74,6 @@ public final class JsonReader {
                         edges.add(new Edge(u, v, w));
                     }
                 } else {
-                    // формат u/v/w: берём V = maxIndex+1 и генерим метки "0..V-1"
                     int max = -1;
                     for (int[] uv : numericEdges) {
                         max = Math.max(max, Math.max(uv[0], uv[1]));
@@ -89,15 +83,13 @@ public final class JsonReader {
                     for (int i = 0; i < V; i++) labels.add(String.valueOf(i));
                     for (int i = 0; i < numericEdges.size(); i++) {
                         int[] uv = numericEdges.get(i);
-                        double w = labeledWeights.get(i); // веса уже синхронизированы
+                        double w = labeledWeights.get(i);
                         edges.add(new Edge(uv[0], uv[1], w));
                     }
                 }
 
-                // если указан vertices — переопределяем V и, при необходимости, дополняем labels
                 int Vjson = g.path("vertices").asInt(-1);
                 if (Vjson > 0 && Vjson > labels.size()) {
-                    // дополним метки до нужного V
                     for (int i = labels.size(); i < Vjson; i++) labels.add(String.valueOf(i));
                 }
 
