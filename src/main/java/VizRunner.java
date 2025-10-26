@@ -12,7 +12,7 @@ import java.util.Comparator;
 public final class VizRunner {
     public static void main(String[] args) {
         Path input = Path.of(System.getProperty("input", "json/smallGraphs.json")).toAbsolutePath();
-        Path outDir = Path.of("GraphImages").toAbsolutePath();
+        Path outDir = Path.of("graphDots").toAbsolutePath();
 
         clearDirectory(outDir);
 
