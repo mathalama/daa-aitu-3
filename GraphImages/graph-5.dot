@@ -1,0 +1,35 @@
+graph G {
+  layout=dot;
+  overlap=false;
+  splines=true;
+  rankdir=LR;
+  0 [shape=circle];
+  1 [shape=circle];
+  2 [shape=circle];
+  3 [shape=circle];
+  4 [shape=circle];
+  5 [shape=circle];
+  6 [shape=circle];
+  7 [shape=circle];
+  8 [shape=circle];
+  9 [shape=circle];
+  10 [shape=circle];
+  11 [shape=circle];
+  12 [shape=circle];
+  0 -- 1 [label="8.00", penwidth=3, color=blue];
+  0 -- 2 [label="9.00", color=gray, style=dashed];
+  1 -- 3 [label="5.00", penwidth=3, color=blue];
+  1 -- 4 [label="2.00", penwidth=3, color=blue];
+  1 -- 5 [label="4.00", penwidth=3, color=blue];
+  3 -- 2 [label="1.00", penwidth=3, color=blue];
+  3 -- 6 [label="10.00", color=gray, style=dashed];
+  2 -- 7 [label="6.00", penwidth=3, color=blue];
+  7 -- 4 [label="10.00", color=gray, style=dashed];
+  4 -- 8 [label="8.00", penwidth=3, color=blue];
+  8 -- 6 [label="5.00", penwidth=3, color=blue];
+  6 -- 9 [label="2.00", penwidth=3, color=blue];
+  9 -- 10 [label="8.00", penwidth=3, color=blue];
+  10 -- 5 [label="9.00", color=gray, style=dashed];
+  5 -- 11 [label="1.00", penwidth=3, color=blue];
+  11 -- 12 [label="9.00", penwidth=3, color=blue];
+}
